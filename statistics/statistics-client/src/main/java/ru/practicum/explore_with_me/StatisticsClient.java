@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+import ru.practicum.explore_with_me.statistics_dto.EndpointHitDto;
 
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,9 @@ public class StatisticsClient extends BaseClient{
                 "unique", unique
         );
         return get("?start={start}&end={end}&uris={uris}&unique={unique}", parameters);
+    }
+    public ResponseEntity<Object> postHit(EndpointHitDto endpointHitDto){
+        return post("/hit", endpointHitDto);
     }
 
 }
