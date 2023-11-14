@@ -1,4 +1,4 @@
-package ru.practicum.explore_with_me.statistics_dto;
+package ru.practicum.explore_with_me.statistics_dto.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class ViewStatsDto {
     private String app;
     private String uri;
-    private long hits;
+    private Long hits;
 }

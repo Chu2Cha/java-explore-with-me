@@ -1,9 +1,10 @@
 package ru.practicum.explore_with_me.statistics_controller;
 
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explore_with_me.statistics_dto.EndpointHitDto;
-import ru.practicum.explore_with_me.statistics_dto.ViewStatsDto;
+import ru.practicum.explore_with_me.statistics_dto.dto.EndpointHitDto;
+import ru.practicum.explore_with_me.statistics_dto.dto.ViewStatsDto;
 import ru.practicum.explore_with_me.statistics_service.StatisticsService;
 
 import java.util.List;
@@ -18,12 +19,12 @@ public class StatisticsController {
     }
 
     @PostMapping("/hit")
-    public EndpointHitDto postEndpointHit (@RequestBody EndpointHitDto endpointHitDto){
+    public @ResponseStatus(HttpStatus.CREATED) EndpointHitDto postEndpointHit (@RequestBody EndpointHitDto endpointHitDto){
         return statisticsService.postEndpointHit(endpointHitDto);
     }
 
     @GetMapping("/stats")
-    public List<ViewStatsDto> getStats(@RequestParam String start,
+    public @ResponseStatus(HttpStatus.OK) List<ViewStatsDto> getStats(@RequestParam String start,
                                  @RequestParam String end,
                                  @RequestParam (required = false) List<String> uris,
                                  @RequestParam (defaultValue = "false") boolean unique){
