@@ -36,10 +36,16 @@ public class StatisticsServiceImpl implements StatisticsService {
         LocalDateTime startTime = stringToDate(start);
         LocalDateTime endTime = stringToDate(end);
 
-
-
-        List<ViewStats> viewStatsList = repository.findByTimestampBetweenAndUriInGroupByAppAndUri(startTime, endTime, uris);
+        List<ViewStats> viewStatsList;
+        if(unique){
+            viewStatsList = repository.findAllUniqueWhenUriIsNotEmpty(startTime, endTime, uris);
+        }
+        else {
+            viewStatsList = repository.findAllNotUniqueWhenUriIsNotEmpty(startTime, endTime, uris);
+        }
         return viewStatsList.stream().map(viewStatsMapper::toViewStatsDto).collect(Collectors.toList());
+
+
     }
 
     private LocalDateTime stringToDate(String dateString) {
