@@ -1,7 +1,7 @@
 package ru.practicum.explore_with_me.statistics_service;
 
 import ru.practicum.explore_with_me.statistics_dto.dto.EndpointHitDto;
-import ru.practicum.explore_with_me.statistics_model.ViewStats;
+import ru.practicum.explore_with_me.statistics_dto.dto.ViewStats;
 
 import java.util.List;
 
