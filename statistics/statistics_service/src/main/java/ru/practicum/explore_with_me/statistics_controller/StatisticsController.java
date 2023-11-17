@@ -21,7 +21,7 @@ public class StatisticsController {
     }
 
     @PostMapping("/hit")
-    public @ResponseStatus(HttpStatus.CREATED) EndpointHitDto postEndpointHit (@RequestBody EndpointHitDto endpointHitDto){
+    public @ResponseStatus(HttpStatus.CREATED) EndpointHitDto postEndpointHit(@RequestBody EndpointHitDto endpointHitDto) {
         log.info("Statistics-Service: Post request to /hit");
         return statisticsService.postEndpointHit(endpointHitDto);
     }
@@ -29,8 +29,8 @@ public class StatisticsController {
     @GetMapping("/stats")
     public @ResponseStatus(HttpStatus.OK) List<ViewStats> getStats(@RequestParam String start,
                                                                    @RequestParam String end,
-                                                                   @RequestParam (required = false) List<String> uris,
-                                                                   @RequestParam (defaultValue = "false") boolean unique){
+                                                                   @RequestParam(required = false) List<String> uris,
+                                                                   @RequestParam(defaultValue = "false") boolean unique) {
         log.info("Statistics-Service: Get request from /stats: start {}, end {}, uris {}, unique {}",
                 start, end, uris, unique);
         return statisticsService.getStats(start, end, uris, unique);

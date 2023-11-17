@@ -5,12 +5,13 @@ services:
     build: statistics/statistics_service
     ports:
       - "9090:9090"
-    depends_on: stats-db
+    depends_on:
+    - stats-db
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/explore-with-me-stats
       - POSTGRES_DB=explore-with-me-stats
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=iamroot
 
   stats-db:
     image: postgres:14-alpine

@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class BaseClient {
     protected final RestTemplate rest;
+
     public BaseClient(RestTemplate rest) {
         this.rest = rest;
     }
@@ -23,7 +24,7 @@ public class BaseClient {
         return post(path, null, body);
     }
 
-    protected ResponseEntity<Object> get(String path,  @Nullable Map<String, Object> parameters) {
+    protected ResponseEntity<Object> get(String path, @Nullable Map<String, Object> parameters) {
         return makeAndSendRequest(HttpMethod.GET, path, parameters, null);
     }
 

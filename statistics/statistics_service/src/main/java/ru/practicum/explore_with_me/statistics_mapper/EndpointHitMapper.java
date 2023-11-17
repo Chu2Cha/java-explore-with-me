@@ -8,7 +8,7 @@ import ru.practicum.explore_with_me.statistics_model.EndpointHit;
 @Component
 @AllArgsConstructor
 public class EndpointHitMapper {
-    public EndpointHitDto toEndpointHitDto (EndpointHit endpointHit){
+    public EndpointHitDto toEndpointHitDto(EndpointHit endpointHit) {
         return EndpointHitDto.builder()
                 .id(endpointHit.getId())
                 .app(endpointHit.getApp())
@@ -18,7 +18,7 @@ public class EndpointHitMapper {
                 .build();
     }
 
-    public EndpointHit toEndpointHit (EndpointHitDto endpointHitDto){
+    public EndpointHit toEndpointHit(EndpointHitDto endpointHitDto) {
         return EndpointHit.builder()
                 .app(endpointHitDto.getApp())
                 .uri(endpointHitDto.getUri())

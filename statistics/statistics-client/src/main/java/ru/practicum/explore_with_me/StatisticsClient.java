@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class StatisticsClient extends BaseClient{
+public class StatisticsClient extends BaseClient {
 
     @Autowired
     public StatisticsClient(@Value(Constants.STATISTICS_SERVER_URL) String serverUrl, RestTemplateBuilder builder) {
@@ -26,7 +26,7 @@ public class StatisticsClient extends BaseClient{
         );
     }
 
-    public ResponseEntity<Object> getStatistics(String start, String end, List<String>uris, boolean unique) {
+    public ResponseEntity<Object> getStatistics(String start, String end, List<String> uris, boolean unique) {
         Map<String, Object> parameters = Map.of(
                 "start", start,
                 "end", end,
@@ -35,7 +35,8 @@ public class StatisticsClient extends BaseClient{
         );
         return get("?start={start}&end={end}&uris={uris}&unique={unique}", parameters);
     }
-    public ResponseEntity<Object> postHit(EndpointHitDto endpointHitDto){
+
+    public ResponseEntity<Object> postHit(EndpointHitDto endpointHitDto) {
         return post("/hit", endpointHitDto);
     }
 
