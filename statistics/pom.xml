@@ -12,9 +12,9 @@
     <artifactId>statistics</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>statistics-dto</module>
-        <module>statistics-client</module>
-        <module>statistics_service</module>
+        <module>dto</module>
+        <module>client</module>
+        <module>service</module>
     </modules>
 
     <properties>
