@@ -6,7 +6,7 @@ import ru.practicum.explore_with_me.dto.user.UserDto;
 import java.util.List;
 
 public interface AdminUserService {
-    List<UserDto> getAllUsers(long[]ids, int from, int size);
+    List<UserDto> getAllUsers(Long[]ids, int from, int size);
 
     UserDto postUser (NewUserRequest userDto);
 

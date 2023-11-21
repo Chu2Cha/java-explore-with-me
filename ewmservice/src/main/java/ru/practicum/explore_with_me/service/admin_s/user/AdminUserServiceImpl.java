@@ -26,7 +26,15 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public List<UserDto> getAllUsers(long[] ids, int from, int size) {
+    public List<UserDto> getAllUsers(Long[] ids, int from, int size) {
+        if(ids == null || ids.length ==0 ){
+            return userRepository.findAll()
+                    .stream()
+                    .skip(from)
+                    .limit(size)
+                    .map(userMapper::toUserDto)
+                    .collect(Collectors.toList());
+        }
         return userRepository.findAllByIdIn(ids)
                 .stream()
                 .skip(from)

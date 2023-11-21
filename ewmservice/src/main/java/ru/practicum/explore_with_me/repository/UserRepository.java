@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    List<User> findAllByIdIn(long[] ids);
+    List<User> findAllByIdIn(Long[] ids);
 
     List<User> findOneByName(String name);
 
