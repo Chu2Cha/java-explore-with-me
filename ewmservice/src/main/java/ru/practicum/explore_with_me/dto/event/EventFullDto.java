@@ -7,11 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.explore_with_me.dto.category.CategoryDto;
 import ru.practicum.explore_with_me.dto.user.UserShortDto;
+import ru.practicum.explore_with_me.model.Location;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
-import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -26,7 +24,7 @@ public class EventFullDto {
     private long confirmedRequests;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private String createdOn;
+    private LocalDateTime eventDate;
 
     private String description;
 
@@ -41,7 +39,7 @@ public class EventFullDto {
     private int participantLimit;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private String publishedOn;
+    private LocalDateTime createdOn;
 
     private boolean requestModeration;
 

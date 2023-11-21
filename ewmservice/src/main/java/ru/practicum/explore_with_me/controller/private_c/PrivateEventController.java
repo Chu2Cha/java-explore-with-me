@@ -26,9 +26,9 @@ public class PrivateEventController {
     public @ResponseStatus(HttpStatus.CREATED) EventFullDto postNewEvent(
             @PathVariable Long userId,
             @RequestBody NewEventDto newEventDto) {
-        LocalDateTime createdOn = LocalDateTime.now();
-        log.info("post new event, userid = {}, newEventDto = {}, created at {}", userId, newEventDto, createdOn);
-        return privateEventService.postNewEvent(userId, newEventDto, createdOn);
+        LocalDateTime publishedOn = LocalDateTime.now();
+        log.info("post new event, userid = {}, newEventDto = {}, published on  {}", userId, newEventDto, publishedOn);
+        return privateEventService.postNewEvent(userId, newEventDto, publishedOn);
     }
 
     @GetMapping("/{id}")
