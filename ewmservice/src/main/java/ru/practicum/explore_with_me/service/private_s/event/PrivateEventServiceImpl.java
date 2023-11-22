@@ -3,9 +3,8 @@ package ru.practicum.explore_with_me.service.private_s.event;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.practicum.explore_with_me.dto.event.EventFullDto;
-import ru.practicum.explore_with_me.dto.event.EventState;
-import ru.practicum.explore_with_me.dto.event.NewEventDto;
+import ru.practicum.explore_with_me.dto.event.*;
+import ru.practicum.explore_with_me.exceptions.BadRequestException;
 import ru.practicum.explore_with_me.exceptions.NotFoundException;
 import ru.practicum.explore_with_me.mapper.EventMapper;
 import ru.practicum.explore_with_me.model.Category;
@@ -16,6 +15,8 @@ import ru.practicum.explore_with_me.repository.EventRepository;
 import ru.practicum.explore_with_me.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -28,25 +29,64 @@ public class PrivateEventServiceImpl implements PrivateEventService{
     private final EventMapper eventMapper;
 
     @Override
-    public EventFullDto postNewEvent(Long userId, NewEventDto newEventDto, LocalDateTime publishedOn) {
-        Category category = categoryRepository.findById(newEventDto.getCategory())
-                .orElseThrow(() -> new NotFoundException("Категория id =" + newEventDto.getCategory() + " не найдена."));
+    public EventFullDto postNewEvent(Long userId, NewEventDto newEventDto, LocalDateTime cratedOn) {
+        Event event = eventMapper.toEventFromNew(newEventDto);
+        event.setCreatedOn(cratedOn);
+        checkDateValidation(event, cratedOn, 2);
+        event.setCategory(getCategory(newEventDto));
         Long confirmedRequests = 0L;
-        User initiator = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("Пользователь =" + userId + " не найден."));
-        EventState state = EventState.PENDING;
-        Long veiws = 0L;
-        Event event = eventMapper.toEventFromNew(newEventDto,category,
-                confirmedRequests,publishedOn,initiator,state,veiws);
+        event.setConfirmedRequests(confirmedRequests);
+        event.setInitiator(getInitiator(userId));
+        event.setState(EventState.PENDING);
+        Long views = 0L;
+        event.setViews(views);
         return eventMapper.toEventFullDto(eventRepository.save(event));
     }
 
-    private Long findConfirmedRequests(NewEventDto newEventDto) {
-        return 0L;
+    private User getInitiator(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Пользователь =" + userId + " не найден."));
+    }
+
+    private Category getCategory(NewEventDto newEventDto) {
+        return categoryRepository.findById(newEventDto.getCategory())
+                .orElseThrow(() -> new NotFoundException("Категория id =" + newEventDto.getCategory() + " не найдена."));
+    }
+
+    private static void checkDateValidation(Event event, LocalDateTime cratedOn, int hours) {
+        if(event.getEventDate().isBefore(cratedOn.plusHours(hours))){
+            throw new BadRequestException("Дата и время, на которые намечено событие, " + event.getEventDate() +
+                    " не может быть раньше, чем через " + hours + " час(а) от текущего момента " + cratedOn);
+        }
+    }
+
+
+    @Override
+    public EventFullDto getUserEvent(Long userId, Long id) {
+        Event event = findEvent(userId, id);
+        return eventMapper.toEventFullDto(event);
     }
 
     @Override
-    public EventFullDto getEvent(Long userId, Long id) {
+    public List<EventShortDto> getAllUserEvents(Long userId, int from, int size) {
+        return eventRepository.findAllByInitiatorId(userId).stream()
+                .skip(from)
+                .limit(size)
+                .map(eventMapper::toEventShortDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public EventFullDto updateUserEvent(Long userId, Long id, UpdateEventUserRequest updateEventUserRequest,
+                                        LocalDateTime cratedOn) {
+        Event event = findEvent(userId, id);
+        event.setCreatedOn(cratedOn);
+        checkDateValidation(event, cratedOn, 2);
         return null;
+    }
+
+    private Event findEvent(Long userId, Long id) {
+        return eventRepository.findByIdAndInitiatorId(id, userId)
+                .orElseThrow(() -> new NotFoundException("У пользователя id = " + userId + " нет эвента id = " + id));
     }
 }

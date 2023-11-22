@@ -32,6 +32,9 @@ public class Event {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "event_date")
+    private LocalDateTime eventDate;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

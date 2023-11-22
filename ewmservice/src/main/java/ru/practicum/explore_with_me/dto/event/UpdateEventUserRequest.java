@@ -5,34 +5,26 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.practicum.explore_with_me.dto.category.CategoryDto;
-import ru.practicum.explore_with_me.dto.user.UserShortDto;
 import ru.practicum.explore_with_me.model.Location;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EventFullDto {
-
+public class UpdateEventUserRequest {
+    @Size(min = 20, max = 2000)
     private String annotation;
 
-    private CategoryDto category;
+    private Long category;
 
-    private long confirmedRequests;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdOn;
-
+    @Size(min = 20, max = 7000)
     private String description;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
-    private Long id;
-
-    private UserShortDto initiator;
 
     private Location location;
 
@@ -40,14 +32,12 @@ public class EventFullDto {
 
     private int participantLimit;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime publishedOn;
 
     private boolean requestModeration;
 
-    private EventState state;
+    private StateAction stateAction;
 
+    @Size(min = 3, max = 120)
     private String title;
 
-    private Long views;
 }
