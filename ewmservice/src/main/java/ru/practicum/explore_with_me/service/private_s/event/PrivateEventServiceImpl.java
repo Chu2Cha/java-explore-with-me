@@ -33,7 +33,7 @@ public class PrivateEventServiceImpl implements PrivateEventService{
         Event event = eventMapper.toEventFromNew(newEventDto);
         event.setCreatedOn(cratedOn);
         checkDateValidation(event, cratedOn, 2);
-        event.setCategory(getCategory(newEventDto));
+        event.setCategory(getCategory(newEventDto.getCategory()));
         Long confirmedRequests = 0L;
         event.setConfirmedRequests(confirmedRequests);
         event.setInitiator(getInitiator(userId));
@@ -48,9 +48,9 @@ public class PrivateEventServiceImpl implements PrivateEventService{
                 .orElseThrow(() -> new NotFoundException("Пользователь =" + userId + " не найден."));
     }
 
-    private Category getCategory(NewEventDto newEventDto) {
-        return categoryRepository.findById(newEventDto.getCategory())
-                .orElseThrow(() -> new NotFoundException("Категория id =" + newEventDto.getCategory() + " не найдена."));
+    private Category getCategory(Long categoryId) {
+        return categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new NotFoundException("Категория id =" + categoryId + " не найдена."));
     }
 
     private static void checkDateValidation(Event event, LocalDateTime cratedOn, int hours) {
@@ -60,11 +60,9 @@ public class PrivateEventServiceImpl implements PrivateEventService{
         }
     }
 
-
     @Override
     public EventFullDto getUserEvent(Long userId, Long id) {
-        Event event = findEvent(userId, id);
-        return eventMapper.toEventFullDto(event);
+        return eventMapper.toEventFullDto(findEvent(userId, id));
     }
 
     @Override
@@ -80,9 +78,47 @@ public class PrivateEventServiceImpl implements PrivateEventService{
     public EventFullDto updateUserEvent(Long userId, Long id, UpdateEventUserRequest updateEventUserRequest,
                                         LocalDateTime cratedOn) {
         Event event = findEvent(userId, id);
+        if(event.getState().equals(EventState.PUBLISHED)){
+            throw new BadRequestException("изменить можно только отмененные события " +
+                    "или события в состоянии ожидания модерации");
+        }
         event.setCreatedOn(cratedOn);
+        if(updateEventUserRequest.getAnnotation()!=null){
+            event.setAnnotation(updateEventUserRequest.getAnnotation());
+        }
+        if(updateEventUserRequest.getCategory()!=null){
+            event.setCategory(getCategory(updateEventUserRequest.getCategory()));
+        }
+        if(updateEventUserRequest.getDescription()!=null){
+            event.setDescription(updateEventUserRequest.getDescription());
+        }
+        if(updateEventUserRequest.getEventDate()!=null){
+            event.setEventDate(updateEventUserRequest.getEventDate());
+        }
         checkDateValidation(event, cratedOn, 2);
-        return null;
+        if(updateEventUserRequest.getLocation()!=null){
+            event.setLocation(updateEventUserRequest.getLocation());
+        }
+       if(updateEventUserRequest.getPaid() != null){  //почему isPaid? у меня нет такой переменной!
+           event.setPaid(updateEventUserRequest.getPaid());
+       }
+       if(updateEventUserRequest.getParticipantLimit()!=null){
+           event.setParticipantLimit(updateEventUserRequest.getParticipantLimit());
+       }
+       if(updateEventUserRequest.getRequestModeration()!=null){
+           event.setRequestModeration(updateEventUserRequest.getRequestModeration());
+       }
+       if(updateEventUserRequest.getStateAction() == StateAction.SEND_TO_REVIEW){
+           event.setState(EventState.PENDING);
+       }
+       if(updateEventUserRequest.getStateAction() == StateAction.CANCEL_REVIEW){
+           event.setState(EventState.CANCELED);
+       }
+       if(updateEventUserRequest.getTitle()!= null){
+           event.setTitle(updateEventUserRequest.getTitle());
+       }
+        return eventMapper.toEventFullDto(eventRepository.save(event));
+
     }
 
     private Event findEvent(Long userId, Long id) {
