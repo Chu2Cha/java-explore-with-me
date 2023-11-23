@@ -1,6 +1,7 @@
 package ru.practicum.explore_with_me.service.admin_s.event;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.explore_with_me.dto.enums.EventState;
 import ru.practicum.explore_with_me.dto.event.EventFullDto;
@@ -16,6 +17,9 @@ import ru.practicum.explore_with_me.repository.UserRepository;
 import ru.practicum.explore_with_me.service.EventValidation;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -51,6 +55,27 @@ public class AdminEventServiceImpl extends EventValidation implements AdminEvent
         }
         log.info("admin updated event: " + event);
         return eventMapper.toEventFullDto(eventRepository.save(event));
+    }
+
+    @Override
+    public List<EventFullDto> searchEvents(List<Long> users, List<EventState> states, List<Long> categories,
+                                           String rangeStart, String rangeEnd, int from, int size) {
+        LocalDateTime startDate = stringToDate(rangeStart);
+        LocalDateTime endDate = stringToDate(rangeEnd);
+        PageRequest page = PageRequest.of(from / size, size);
+        List<Event> eventList =  eventRepository.adminSearchEvents(users, states, categories, startDate, endDate, page);
+        return eventList.stream()
+                .map(eventMapper::toEventFullDto)
+                .collect(Collectors.toList());
+    }
+
+    private LocalDateTime stringToDate(String stringDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime daate = null;
+        if (stringDate != null) {
+            daate = LocalDateTime.parse(stringDate, formatter);
+        }
+        return daate;
     }
 
 }
