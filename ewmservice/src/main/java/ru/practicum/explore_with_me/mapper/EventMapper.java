@@ -4,13 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.practicum.explore_with_me.dto.event.EventFullDto;
 import ru.practicum.explore_with_me.dto.event.EventShortDto;
-import ru.practicum.explore_with_me.dto.event.EventState;
 import ru.practicum.explore_with_me.dto.event.NewEventDto;
-import ru.practicum.explore_with_me.model.Category;
 import ru.practicum.explore_with_me.model.Event;
-import ru.practicum.explore_with_me.model.User;
-
-import java.time.LocalDateTime;
 
 @Component
 @AllArgsConstructor

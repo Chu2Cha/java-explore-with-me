@@ -2,7 +2,7 @@ package ru.practicum.explore_with_me.dto.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import ru.practicum.explore_with_me.dto.enums.UserStateAction;
+import ru.practicum.explore_with_me.dto.enums.AdminStateAction;
 import ru.practicum.explore_with_me.model.Location;
 
 import javax.validation.constraints.Size;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UpdateEventUserRequest extends UpdateEventRequest{
+public class UpdateEventAdminRequest extends UpdateEventRequest{
     @Size(min = 20, max = 2000)
     private String annotation;
 
@@ -31,12 +31,10 @@ public class UpdateEventUserRequest extends UpdateEventRequest{
 
     private Integer participantLimit;
 
-
     private Boolean requestModeration;
 
-    private UserStateAction stateAction;
+    private AdminStateAction stateAction;
 
     @Size(min = 3, max = 120)
     private String title;
-
 }

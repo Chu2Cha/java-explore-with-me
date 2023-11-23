@@ -1,5 +1,6 @@
 package ru.practicum.explore_with_me.service.admin_s.category;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.explore_with_me.dto.category.CategoryDto;
@@ -9,21 +10,21 @@ import ru.practicum.explore_with_me.exceptions.NotFoundException;
 import ru.practicum.explore_with_me.mapper.CategoryMapper;
 import ru.practicum.explore_with_me.model.Category;
 import ru.practicum.explore_with_me.repository.CategoryRepository;
+import ru.practicum.explore_with_me.repository.EventRepository;
 
 import java.util.List;
 
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class AdminCategoryServiceImpl implements AdminCategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final EventRepository eventRepository;
 
     private final CategoryMapper categoryMapper = new CategoryMapper();
 
-    public AdminCategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     @Override
     public CategoryDto postCategory(NewCategoryDto newCategoryDto) {
@@ -35,7 +36,10 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     @Override
     public void deleteCategory(long id) {
         CategoryDto categoryForDelete = findCategoryById(id);
-        log.info("Delete category: " + categoryForDelete);
+        if(!eventRepository.findOneByCategoryId(id).isEmpty()){
+            throw new ConflictException("Ошибка: У категории " + categoryForDelete.getName() + " есть связанные события!");
+        }
+        log.info("Delete category: " + categoryForDelete.getName());
         categoryRepository.deleteById(id);
     }
 

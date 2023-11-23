@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.explore_with_me.dto.category.CategoryDto;
+import ru.practicum.explore_with_me.dto.enums.EventState;
 import ru.practicum.explore_with_me.dto.user.UserShortDto;
 import ru.practicum.explore_with_me.model.Location;
 
