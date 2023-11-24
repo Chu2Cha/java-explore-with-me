@@ -7,7 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.dto.user.NewUserRequest;
 import ru.practicum.explore_with_me.dto.user.UserDto;
-import ru.practicum.explore_with_me.service.admin_s.user.AdminUserService;
+import ru.practicum.explore_with_me.service.interfaces.AdminUserService;
 
 import javax.validation.Valid;
 import java.util.List;

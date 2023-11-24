@@ -8,7 +8,7 @@ import ru.practicum.explore_with_me.dto.event.EventFullDto;
 import ru.practicum.explore_with_me.dto.event.EventShortDto;
 import ru.practicum.explore_with_me.dto.event.NewEventDto;
 import ru.practicum.explore_with_me.dto.event.UpdateEventUserRequest;
-import ru.practicum.explore_with_me.service.private_s.event.PrivateEventService;
+import ru.practicum.explore_with_me.service.interfaces.PrivateEventService;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package ru.practicum.explore_with_me.service.admin_s.user;
+package ru.practicum.explore_with_me.service.interfaces;
 
 import ru.practicum.explore_with_me.dto.user.NewUserRequest;
 import ru.practicum.explore_with_me.dto.user.UserDto;

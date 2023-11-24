@@ -1,4 +1,4 @@
-package ru.practicum.explore_with_me.service.admin_s.event;
+package ru.practicum.explore_with_me.service.interfaces;
 
 import ru.practicum.explore_with_me.dto.enums.EventState;
 import ru.practicum.explore_with_me.dto.event.EventFullDto;

@@ -1,4 +1,4 @@
-package ru.practicum.explore_with_me.service.admin_s.category;
+package ru.practicum.explore_with_me.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +11,7 @@ import ru.practicum.explore_with_me.mapper.CategoryMapper;
 import ru.practicum.explore_with_me.model.Category;
 import ru.practicum.explore_with_me.repository.CategoryRepository;
 import ru.practicum.explore_with_me.repository.EventRepository;
+import ru.practicum.explore_with_me.service.interfaces.AdminCategoryService;
 
 import java.util.List;
 

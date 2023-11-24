@@ -1,4 +1,4 @@
-package ru.practicum.explore_with_me.service.admin_s.category;
+package ru.practicum.explore_with_me.service.interfaces;
 
 import ru.practicum.explore_with_me.dto.category.CategoryDto;
 import ru.practicum.explore_with_me.dto.category.NewCategoryDto;

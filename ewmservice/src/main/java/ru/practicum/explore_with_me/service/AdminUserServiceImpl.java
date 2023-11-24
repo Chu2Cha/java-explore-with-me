@@ -1,4 +1,4 @@
-package ru.practicum.explore_with_me.service.admin_s.user;
+package ru.practicum.explore_with_me.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,7 @@ import ru.practicum.explore_with_me.exceptions.NotFoundException;
 import ru.practicum.explore_with_me.mapper.UserMapper;
 import ru.practicum.explore_with_me.model.User;
 import ru.practicum.explore_with_me.repository.UserRepository;
+import ru.practicum.explore_with_me.service.interfaces.AdminUserService;
 
 import java.util.List;
 import java.util.stream.Collectors;

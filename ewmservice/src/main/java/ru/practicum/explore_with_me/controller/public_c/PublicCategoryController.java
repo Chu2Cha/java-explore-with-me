@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.dto.category.CategoryDto;
-import ru.practicum.explore_with_me.service.public_s.category.PublicCategoryService;
+import ru.practicum.explore_with_me.service.interfaces.PublicCategoryService;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;

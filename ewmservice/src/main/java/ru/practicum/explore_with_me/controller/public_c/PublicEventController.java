@@ -4,11 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explore_with_me.dto.enums.EventState;
 import ru.practicum.explore_with_me.dto.enums.SortEvents;
 import ru.practicum.explore_with_me.dto.event.EventFullDto;
 import ru.practicum.explore_with_me.dto.event.EventShortDto;
-import ru.practicum.explore_with_me.service.public_s.event.PublicEventService;
+import ru.practicum.explore_with_me.service.interfaces.PublicEventService;
 
 import java.util.List;
 
@@ -40,6 +39,9 @@ public class PublicEventController {
             @RequestParam(name = "sort", required = false) SortEvents sort,
             @RequestParam(name = "from", defaultValue = "0") int from,
             @RequestParam(name = "size", defaultValue = "10") int size) {
+        log.info("find events where text = {}, categories = {}, paid = {}, rangeStart = {}, rangeEnd = {}, " +
+                        "onlyAvailable = {}, sort = {}, from = {}, size = {}", text, categories, paid, rangeStart,
+                rangeEnd, onlyAvailable, sort, from, size);
         return publicEventService.searchEvents(text, categories, paid, rangeStart,
                 rangeEnd, onlyAvailable, sort, from, size);
 

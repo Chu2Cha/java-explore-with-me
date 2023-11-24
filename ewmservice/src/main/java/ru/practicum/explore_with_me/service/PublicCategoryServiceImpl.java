@@ -1,4 +1,4 @@
-package ru.practicum.explore_with_me.service.public_s.category;
+package ru.practicum.explore_with_me.service;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +7,7 @@ import ru.practicum.explore_with_me.dto.category.CategoryDto;
 import ru.practicum.explore_with_me.exceptions.NotFoundException;
 import ru.practicum.explore_with_me.mapper.CategoryMapper;
 import ru.practicum.explore_with_me.repository.CategoryRepository;
+import ru.practicum.explore_with_me.service.interfaces.PublicCategoryService;
 
 import java.util.List;
 import java.util.stream.Collectors;

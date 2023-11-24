@@ -1,6 +1,7 @@
 package ru.practicum.explore_with_me.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 import ru.practicum.explore_with_me.dto.enums.EventState;
 import ru.practicum.explore_with_me.dto.event.UpdateEventRequest;
 import ru.practicum.explore_with_me.exceptions.BadRequestException;
@@ -14,7 +15,9 @@ import ru.practicum.explore_with_me.repository.EventRepository;
 import ru.practicum.explore_with_me.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
+@Component
 @AllArgsConstructor
 public class EventValidation {
     protected final EventRepository eventRepository;
@@ -81,5 +84,14 @@ public class EventValidation {
         if (updateEventRequest.getTitle() != null) {
             event.setTitle(updateEventRequest.getTitle());
         }
+    }
+
+    protected LocalDateTime stringToDate(String stringDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime daate = null;
+        if (stringDate != null) {
+            daate = LocalDateTime.parse(stringDate, formatter);
+        }
+        return daate;
     }
 }

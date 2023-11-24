@@ -1,4 +1,4 @@
-package ru.practicum.explore_with_me.service.private_s.event;
+package ru.practicum.explore_with_me.service.interfaces;
 
 import ru.practicum.explore_with_me.dto.event.EventFullDto;
 import ru.practicum.explore_with_me.dto.event.EventShortDto;

@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.dto.enums.EventState;
 import ru.practicum.explore_with_me.dto.event.EventFullDto;
 import ru.practicum.explore_with_me.dto.event.UpdateEventAdminRequest;
-import ru.practicum.explore_with_me.service.admin_s.event.AdminEventService;
+import ru.practicum.explore_with_me.service.interfaces.AdminEventService;
 
-import javax.swing.plaf.nimbus.State;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;

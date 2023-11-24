@@ -1,4 +1,4 @@
-package ru.practicum.explore_with_me.service.public_s.event;
+package ru.practicum.explore_with_me.service.interfaces;
 
 import ru.practicum.explore_with_me.dto.enums.SortEvents;
 import ru.practicum.explore_with_me.dto.event.EventFullDto;

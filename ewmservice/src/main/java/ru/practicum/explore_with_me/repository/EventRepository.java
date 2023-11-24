@@ -19,16 +19,61 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     List<Event> findOneByCategoryId(Long id);
 
+
+
     @Query("SELECT e FROM Event AS e " +
             "JOIN e.category AS c " +
             "JOIN e.initiator AS u " +
             "WHERE ((:users) IS NULL OR u.id IN :users) " +
             "AND ((:states) IS NULL OR e.state IN :states) " +
             "AND ((:categories) IS NULL OR c.id IN :categories) " +
-            "AND (cast(:rangeStart as date) IS NULL OR e.eventDate > :rangeStart) " +
-            "AND (cast(:rangeEnd as date) IS NULL OR e.eventDate < :rangeEnd)")
+            "AND (cast(:startDate as date) IS NULL OR e.eventDate > :startDate) " +
+            "AND (cast(:endDate as date) IS NULL OR e.eventDate < :endDate)")
     List<Event> adminSearchEvents(List<Long> users, List<EventState> states, List<Long> categories,
-                                  LocalDateTime rangeStart, LocalDateTime rangeEnd, PageRequest pageable);
+                                  LocalDateTime startDate, LocalDateTime endDate, PageRequest pageable);
 
     Optional<Event> findByIdAndStateIs(Long id, EventState state);
+
+
+
+    @Query("SELECT e FROM Event AS e " +
+            "JOIN e.category AS c " +
+            "WHERE ((:text) IS NULL OR upper(e.annotation) like upper(concat('%', :text, '%')) " +
+            "OR upper(e.description) like upper(concat('%', :text, '%'))) " +
+            "AND ((:categories) IS NULL OR c.id IN :categories) " +
+            "AND ((:paid) IS NULL OR e.paid IN :paid) " +
+            "AND (cast(:startDate as date) IS NULL OR e.eventDate > :startDate) " +
+            "AND (cast(:endDate as date) IS NULL OR e.eventDate < :endDate) " +
+            "AND ((:state) IS NULL OR e.state IN :state) " +
+            "ORDER BY e.eventDate")
+    List<Event> publicSearchEventsByEventDate(String text, List<Long> categories, Boolean paid,
+                                              LocalDateTime startDate, LocalDateTime endDate,
+                                              EventState state, PageRequest page);
+
+    @Query("SELECT e FROM Event AS e " +
+            "JOIN e.category AS c " +
+            "WHERE ((:text) IS NULL OR upper(e.annotation) like upper(concat('%', :text, '%')) " +
+            "OR upper(e.description) like upper(concat('%', :text, '%'))) " +
+            "AND ((:categories) IS NULL OR c.id IN :categories) " +
+            "AND ((:paid) IS NULL OR e.paid IN :paid) " +
+            "AND (cast(:startDate as date) IS NULL OR e.eventDate > :startDate) " +
+            "AND (cast(:endDate as date) IS NULL OR e.eventDate < :endDate) " +
+            "AND ((:state) IS NULL OR e.state IN :state) " +
+            "ORDER BY e.views")
+    List<Event> publicSearchEventsByViews(String text, List<Long> categories, Boolean paid,
+                                          LocalDateTime startDate, LocalDateTime endDate,
+                                          EventState state, PageRequest page);
+
+    @Query("SELECT e FROM Event AS e " +
+            "JOIN e.category AS c " +
+            "WHERE ((:text) IS NULL OR upper(e.annotation) like upper(concat('%', :text, '%')) " +
+            "OR upper(e.description) like upper(concat('%', :text, '%'))) " +
+            "AND ((:categories) IS NULL OR c.id IN :categories) " +
+            "AND ((:paid) IS NULL OR e.paid IN :paid) " +
+            "AND (cast(:startDate as date) IS NULL OR e.eventDate > :startDate) " +
+            "AND (cast(:endDate as date) IS NULL OR e.eventDate < :endDate) " +
+            "AND ((:state) IS NULL OR e.state IN :state)")
+    List<Event> publicSearchEventsWithoutSort(String text, List<Long> categories, Boolean paid,
+                                              LocalDateTime startDate, LocalDateTime endDate,
+                                              EventState state, PageRequest page);
 }
