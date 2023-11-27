@@ -48,7 +48,7 @@ public class EventValidation {
 
     protected Event findEvent(Long id) {
         return eventRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Event id = " + id + "is not found."));
+                .orElseThrow(() -> new NotFoundException("Event id = " + id + " is not found."));
     }
 
     protected void updateEvent(UpdateEventRequest updateEventRequest, Event event) {
