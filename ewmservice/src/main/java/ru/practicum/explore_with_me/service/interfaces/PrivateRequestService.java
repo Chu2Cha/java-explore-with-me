@@ -9,4 +9,6 @@ public interface PrivateRequestService {
     ParticipationRequestDto postRequest(Long userId, Long eventId, LocalDateTime created);
 
     List<ParticipationRequestDto> getUserRequests(Long userId);
+
+    ParticipationRequestDto cancelRequest(Long userId, Long requestId);
 }

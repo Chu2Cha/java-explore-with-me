@@ -3,6 +3,7 @@ package ru.practicum.explore_with_me.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explore_with_me.dto.enums.EventState;
 import ru.practicum.explore_with_me.dto.enums.RequestStatus;
 import ru.practicum.explore_with_me.dto.request.ParticipationRequestDto;
@@ -64,5 +65,17 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
         return requestRepository.findAllByRequesterId(userId).stream()
                 .map(requestMapper::toRequestDto)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public ParticipationRequestDto cancelRequest(Long userId, Long requestId) {
+        Request request = requestRepository.findOneByRequesterIdAndId(userId, requestId).get(0);
+        if(request==null){
+            throw new NotFoundException("Запрос с id = " + requestId + " от пользователя id = " + userId + " на найден.");
+        }
+        request.setStatus(RequestStatus.CANCELED);
+        requestRepository.updateStatus(requestId, RequestStatus.CANCELED);
+        return requestMapper.toRequestDto(request);
     }
 }

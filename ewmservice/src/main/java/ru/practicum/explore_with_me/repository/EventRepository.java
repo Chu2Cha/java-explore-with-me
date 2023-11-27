@@ -78,8 +78,4 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> publicSearchEventsWithoutSort(String text, List<Long> categories, Boolean paid,
                                               LocalDateTime startDate, LocalDateTime endDate,
                                               EventState state, PageRequest page);
-
-    @Modifying
-    @Query("UPDATE Event e SET e.confirmedRequests = e.confirmedRequests + 1 WHERE e.id = :eventId")
-    void increaseConfirmedRequests(@Param("eventId") Long eventId);
 }

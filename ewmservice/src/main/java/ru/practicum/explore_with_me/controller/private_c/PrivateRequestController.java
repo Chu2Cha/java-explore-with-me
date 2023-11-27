@@ -36,4 +36,13 @@ public class PrivateRequestController {
         log.info("Get all requests from userid = {}", userId);
         return requestService.getUserRequests(userId);
     }
+
+    @PatchMapping("/{requestId}/cancel")
+    public @ResponseStatus(HttpStatus.OK) ParticipationRequestDto cancelRequest(
+            @PathVariable Long userId,
+            @PathVariable Long requestId    ){
+        log.info("Cancel request userid = {}, requestId = {}", userId, requestId);
+        return requestService.cancelRequest(userId, requestId);
+
+    }
 }
