@@ -32,10 +32,8 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
 
     @Override
     public ParticipationRequestDto postRequest(Long userId, Long eventId, LocalDateTime created) {
-        User requester = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User id = " + userId + "is not found."));
         Event event = eventValidation.findEvent(eventId);
-        if(!requestRepository.findOneByRequesterIdAndEventId(userId,eventId).isEmpty()){
+        if (!requestRepository.findOneByRequesterIdAndEventId(userId, eventId).isEmpty()) {
             throw new ConflictException("нельзя добавить повторный запрос");
         }
         if (event.getInitiator().getId() == userId) {
@@ -50,14 +48,20 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
         if (event.getParticipantLimit() != 0 && event.getConfirmedRequests() >= event.getParticipantLimit()) {
             throw new ConflictException("у события достигнут лимит запросов на участие");
         }
-        Request newRequest = Request.builder()
+        User requester = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User id = " + userId + "is not found."));
+        Request request = Request.builder()
                 .created(created)
                 .event(event)
                 .requester(requester)
-                .status(RequestStatus.PENDING)
                 .build();
-        newRequest = requestRepository.save(newRequest);
-        return requestMapper.toRequestDto(newRequest);
+        if (event.getParticipantLimit() == 0) {
+            request.setStatus(RequestStatus.CONFIRMED);
+        } else {
+            request.setStatus(RequestStatus.PENDING);
+        }
+        request = requestRepository.save(request);
+        return requestMapper.toRequestDto(request);
     }
 
     @Override
@@ -71,7 +75,7 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
     @Override
     public ParticipationRequestDto cancelRequest(Long userId, Long requestId) {
         Request request = requestRepository.findOneByRequesterIdAndId(userId, requestId).get(0);
-        if(request==null){
+        if (request == null) {
             throw new NotFoundException("Запрос с id = " + requestId + " от пользователя id = " + userId + " на найден.");
         }
         request.setStatus(RequestStatus.CANCELED);

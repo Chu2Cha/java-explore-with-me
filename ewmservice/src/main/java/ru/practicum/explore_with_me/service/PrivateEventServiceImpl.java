@@ -4,13 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.explore_with_me.dto.enums.EventState;
+import ru.practicum.explore_with_me.dto.enums.RequestStatus;
 import ru.practicum.explore_with_me.dto.event.*;
+import ru.practicum.explore_with_me.dto.request.EventRequestStatusUpdateRequest;
+import ru.practicum.explore_with_me.dto.request.EventRequestStatusUpdateResult;
+import ru.practicum.explore_with_me.dto.request.ParticipationRequestDto;
+import ru.practicum.explore_with_me.exceptions.ConflictException;
 import ru.practicum.explore_with_me.mapper.EventMapper;
+import ru.practicum.explore_with_me.mapper.RequestMapper;
 import ru.practicum.explore_with_me.model.Event;
+import ru.practicum.explore_with_me.model.Request;
 import ru.practicum.explore_with_me.repository.EventRepository;
+import ru.practicum.explore_with_me.repository.RequestRepository;
 import ru.practicum.explore_with_me.service.interfaces.PrivateEventService;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +33,8 @@ public class PrivateEventServiceImpl implements PrivateEventService {
     private final EventMapper eventMapper;
     private final EventValidation eventValidation;
     private final EventRepository eventRepository;
+    private final RequestRepository requestRepository;
+    private final RequestMapper requestMapper;
 
     @Override
     public EventFullDto postNewEvent(Long userId, NewEventDto newEventDto, LocalDateTime cratedOn) {
@@ -38,7 +50,6 @@ public class PrivateEventServiceImpl implements PrivateEventService {
         event.setViews(views);
         return eventMapper.toEventFullDto(eventRepository.save(event));
     }
-
 
     @Override
     public EventFullDto getUserEvent(Long userId, Long id) {
@@ -65,7 +76,7 @@ public class PrivateEventServiceImpl implements PrivateEventService {
         eventValidation.checkDateValidation(event, cratedOn, 2);
 
         eventValidation.updateEvent(updateEventUserRequest, event);
-        if(updateEventUserRequest.getStateAction()!=null){
+        if (updateEventUserRequest.getStateAction() != null) {
             switch (updateEventUserRequest.getStateAction()) {
                 case SEND_TO_REVIEW:
                     event.setState(EventState.PENDING);
@@ -79,4 +90,46 @@ public class PrivateEventServiceImpl implements PrivateEventService {
         return eventMapper.toEventFullDto(eventRepository.save(event));
     }
 
+    @Override
+    public List<ParticipationRequestDto> getEventRequests(Long userId, Long id) {
+        Event event = eventValidation.findInitiatorsEvent(userId, id);
+        return requestRepository.findAllByEventId(event.getId()).stream()
+                .map(requestMapper::toRequestDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public EventRequestStatusUpdateResult setEventRequestsStatus(Long userId,
+                                                                 Long id,
+                                                                 EventRequestStatusUpdateRequest requestStatusUpdateRequest) {
+        Event event = eventValidation.findInitiatorsEvent(userId, id);
+        EventRequestStatusUpdateResult statusUpdateResult = new EventRequestStatusUpdateResult();
+        List<ParticipationRequestDto> confirmedRequests = new ArrayList<>();
+        List<ParticipationRequestDto> rejectedRequests = new ArrayList<>();
+        if (event.getParticipantLimit() != 0 && (long) event.getParticipantLimit() == event.getConfirmedRequests()) {
+            throw new ConflictException("нельзя подтвердить заявку, " +
+                    "если уже достигнут лимит по заявкам на данное событие ");
+        }
+        for (long requestId : requestStatusUpdateRequest.getRequestIds()) {
+            Request request = requestRepository.findById(requestId).orElseThrow();
+            RequestStatus status = requestStatusUpdateRequest.getStatus();
+            if ((long) event.getParticipantLimit() == event.getConfirmedRequests()) {
+                requestRepository.updateStatus(request.getId(), RequestStatus.REJECTED);
+                rejectedRequests.add(requestMapper.toRequestDto(request));
+            } else {
+                requestRepository.updateStatus(request.getId(), status);
+                request.setStatus(status);
+                if (status.equals(RequestStatus.CONFIRMED)) {
+                    confirmedRequests.add(requestMapper.toRequestDto(request));
+                }
+                if (status.equals(RequestStatus.REJECTED)) {
+                    rejectedRequests.add(requestMapper.toRequestDto(request));
+                }
+            }
+        }
+        statusUpdateResult.setConfirmedRequests(confirmedRequests);
+        statusUpdateResult.setRejectedRequests(rejectedRequests);
+        return statusUpdateResult;
+    }
 }

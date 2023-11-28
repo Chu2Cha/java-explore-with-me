@@ -57,8 +57,8 @@ public class AdminEventServiceImpl implements AdminEventService {
     @Override
     public List<EventFullDto> searchEvents(List<Long> users, List<EventState> states, List<Long> categories,
                                            String rangeStart, String rangeEnd, int from, int size) {
-        LocalDateTime startDate = eventValidation.stringToDate(rangeStart);
-        LocalDateTime endDate = eventValidation.stringToDate(rangeEnd);
+        LocalDateTime startDate = eventValidation.stringStartToDate(rangeStart);
+        LocalDateTime endDate = eventValidation.stringEndToDate(rangeEnd);
         if(startDate.isAfter(endDate)){
             throw new BadRequestException("дата начала выборки должна быть позже даты конца выборки");
         }

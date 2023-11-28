@@ -36,8 +36,8 @@ public class PublicEventServiceImpl implements PublicEventService {
     public List<EventShortDto> searchEvents(String text, List<Long> categories, Boolean paid,
                                             String rangeStart, String rangeEnd, Boolean onlyAvailable,
                                             SortEvents sort, int from, int size) {
-        LocalDateTime startDate = eventValidation.stringToDate(rangeStart);
-        LocalDateTime endDate = eventValidation.stringToDate(rangeEnd);
+        LocalDateTime startDate = eventValidation.stringStartToDate(rangeStart);
+        LocalDateTime endDate = eventValidation.stringEndToDate(rangeEnd);
         if(startDate !=null && endDate!=null && startDate.isAfter(endDate)){
             throw new BadRequestException("дата начала выборки должна быть позже даты конца выборки");
         }
