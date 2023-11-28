@@ -42,12 +42,17 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
         if (!event.getState().equals(EventState.PUBLISHED)) {
             throw new ConflictException("нельзя участвовать в неопубликованном событии");
         }
-        if (event.getParticipantLimit() == 0 || event.getConfirmedRequests() < event.getParticipantLimit()) {
-            event.setConfirmedRequests(event.getConfirmedRequests() + 1);
-        }
         if (event.getParticipantLimit() != 0 && event.getConfirmedRequests() >= event.getParticipantLimit()) {
             throw new ConflictException("у события достигнут лимит запросов на участие");
         }
+
+        if (!event.getRequestModeration())
+//                event.getParticipantLimit() == 0
+//                || event.getConfirmedRequests() < event.getParticipantLimit())
+        {
+            event.setConfirmedRequests(event.getConfirmedRequests() + 1);
+        }
+
         User requester = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User id = " + userId + "is not found."));
         Request request = Request.builder()

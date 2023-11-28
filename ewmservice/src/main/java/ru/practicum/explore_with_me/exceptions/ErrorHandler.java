@@ -39,14 +39,11 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiError handleBlankException(final MethodArgumentNotValidException e) {
+    public ApiError handleBlankException(final BadRequestException e) {
         log.error(e.getLocalizedMessage(), e.getMessage());
-        String field = Objects.requireNonNull(e.getFieldError()).getField();
-
         return new ApiError(
                 HttpStatus.BAD_REQUEST.toString(),
                 "BAD REQUEST",
-                String.format("Field: %s. Error: must not be blank. Value: %s", field, e.getFieldValue(field)));
-    }
+                e.getMessage());    }
 
 }

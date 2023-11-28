@@ -105,15 +105,21 @@ public class PrivateEventServiceImpl implements PrivateEventService {
                                                                  EventRequestStatusUpdateRequest requestStatusUpdateRequest) {
         Event event = eventValidation.findInitiatorsEvent(userId, id);
         EventRequestStatusUpdateResult statusUpdateResult = new EventRequestStatusUpdateResult();
-        List<ParticipationRequestDto> confirmedRequests = new ArrayList<>();
-        List<ParticipationRequestDto> rejectedRequests = new ArrayList<>();
-        if (event.getParticipantLimit() != 0 && (long) event.getParticipantLimit() == event.getConfirmedRequests()) {
+        if (event.getParticipantLimit() != 0 && event.getConfirmedRequests()>=event.getParticipantLimit()) {
             throw new ConflictException("нельзя подтвердить заявку, " +
                     "если уже достигнут лимит по заявкам на данное событие ");
         }
+        List<ParticipationRequestDto> confirmedRequests = new ArrayList<>();
+        List<ParticipationRequestDto> rejectedRequests = new ArrayList<>();
+
         for (long requestId : requestStatusUpdateRequest.getRequestIds()) {
+
             Request request = requestRepository.findById(requestId).orElseThrow();
+            if (!request.getStatus().equals(RequestStatus.PENDING)) {
+                throw new ConflictException("Статус заявки не PENDING");
+            }
             RequestStatus status = requestStatusUpdateRequest.getStatus();
+
             if ((long) event.getParticipantLimit() == event.getConfirmedRequests()) {
                 requestRepository.updateStatus(request.getId(), RequestStatus.REJECTED);
                 rejectedRequests.add(requestMapper.toRequestDto(request));
@@ -121,6 +127,7 @@ public class PrivateEventServiceImpl implements PrivateEventService {
                 requestRepository.updateStatus(request.getId(), status);
                 request.setStatus(status);
                 if (status.equals(RequestStatus.CONFIRMED)) {
+                    event.setConfirmedRequests(event.getConfirmedRequests()+1);
                     confirmedRequests.add(requestMapper.toRequestDto(request));
                 }
                 if (status.equals(RequestStatus.REJECTED)) {
@@ -128,8 +135,10 @@ public class PrivateEventServiceImpl implements PrivateEventService {
                 }
             }
         }
+
         statusUpdateResult.setConfirmedRequests(confirmedRequests);
         statusUpdateResult.setRejectedRequests(rejectedRequests);
+
         return statusUpdateResult;
     }
 }
