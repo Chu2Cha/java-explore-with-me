@@ -22,7 +22,7 @@ public class AdminCategoryController {
     }
 
     @PostMapping
-    public @ResponseStatus(HttpStatus.CREATED) CategoryDto postUser(@Valid @RequestBody NewCategoryDto newCategoryDto) {
+    public @ResponseStatus(HttpStatus.CREATED) CategoryDto postCategory(@Valid @RequestBody NewCategoryDto newCategoryDto) {
         log.info("post newCategoryDto:" + newCategoryDto);
         return categoryService.postCategory(newCategoryDto);
     }

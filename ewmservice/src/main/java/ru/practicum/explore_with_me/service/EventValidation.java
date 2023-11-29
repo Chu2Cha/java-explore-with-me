@@ -46,7 +46,7 @@ public class EventValidation {
                 .orElseThrow(() -> new NotFoundException("У пользователя id = " + userId + " нет эвента id = " + id));
     }
 
-    protected Event findEvent(Long id) {
+    public Event findEvent(Long id) {
         return eventRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Event id = " + id + " is not found."));
     }
