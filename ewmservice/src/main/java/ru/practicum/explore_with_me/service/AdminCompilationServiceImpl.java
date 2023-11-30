@@ -59,8 +59,8 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     }
 
     private Compilation findCompilation(Long compId) {
-        return compilationRepository.findById(compId).
-                orElseThrow(() -> new NotFoundException("Подборка id =" + compId + " не найдена."));
+        return compilationRepository.findById(compId)
+                .orElseThrow(() -> new NotFoundException("Подборка id =" + compId + " не найдена."));
     }
 
 }

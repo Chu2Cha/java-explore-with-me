@@ -25,7 +25,8 @@ public class AdminEventController {
     }
 
     @PatchMapping("/{id}")
-    public @ResponseStatus(HttpStatus.OK) EventFullDto pathEvent(
+    @ResponseStatus(HttpStatus.OK)
+    public EventFullDto pathEvent(
             @PathVariable Long id,
             @Valid @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
         LocalDateTime publishedOn = LocalDateTime.now();
@@ -35,7 +36,8 @@ public class AdminEventController {
     }
 
     @GetMapping
-    public @ResponseStatus(HttpStatus.OK) List<EventFullDto> searchEvents(
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventFullDto> searchEvents(
             @RequestParam(name = "users", required = false) List<Long> users,
             @RequestParam(name = "states", required = false) List<EventState> states,
             @RequestParam(name = "categories", required = false) List<Long> categories,

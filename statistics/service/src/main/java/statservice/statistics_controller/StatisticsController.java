@@ -1,12 +1,12 @@
-package ru.practicum.explore_with_me.statistics_controller;
+package statservice.statistics_controller;
 
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explore_with_me.statistics_dto.dto.EndpointHitDto;
-import ru.practicum.explore_with_me.statistics_dto.dto.ViewStats;
-import ru.practicum.explore_with_me.statistics_service.StatisticsService;
+import statdto.dto.EndpointHitDto;
+import statdto.dto.ViewStats;
+import statservice.statistics_service.StatisticsService;
 
 import java.util.List;
 

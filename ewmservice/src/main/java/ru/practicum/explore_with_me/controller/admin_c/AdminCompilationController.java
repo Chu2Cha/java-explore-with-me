@@ -23,22 +23,23 @@ public class AdminCompilationController {
     }
 
     @PostMapping
-    public @ResponseStatus(HttpStatus.CREATED) CompilationDto postCompilation
-            (@Valid @RequestBody NewCompilationDto newCompilationDto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public CompilationDto postCompilation(@Valid @RequestBody NewCompilationDto newCompilationDto) {
         log.info("Post new compilation {}", newCompilationDto);
         return compilationService.postCompilation(newCompilationDto);
     }
 
     @DeleteMapping("/{compId}")
-    public @ResponseStatus(HttpStatus.NO_CONTENT) void deleteCompilation(@PathVariable Long compId) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCompilation(@PathVariable Long compId) {
         log.info("Delete compilation od = {}", compId);
         compilationService.deleteCompilation(compId);
     }
 
     @PatchMapping("/{compId}")
-    public @ResponseStatus(HttpStatus.OK) CompilationDto patchCompilation
-            (@PathVariable Long compId,
-             @Valid @RequestBody UpdateCompilationRequest updateCompilationRequest) {
+    @ResponseStatus(HttpStatus.OK)
+    public CompilationDto patchCompilation(@PathVariable Long compId,
+                                           @Valid @RequestBody UpdateCompilationRequest updateCompilationRequest) {
         log.info("update compilation id = {}, update request = {}", compId, updateCompilationRequest);
         return compilationService.patchCompilation(compId, updateCompilationRequest);
     }

@@ -19,7 +19,8 @@ public class PrivateRequestController {
     private final PrivateRequestService requestService;
 
     @PostMapping
-    public @ResponseStatus(HttpStatus.CREATED) ParticipationRequestDto postRequest(
+    @ResponseStatus(HttpStatus.CREATED)
+    public ParticipationRequestDto postRequest(
             @PathVariable Long userId,
             @RequestParam Long eventId) {
         LocalDateTime created = LocalDateTime.now();
@@ -29,18 +30,19 @@ public class PrivateRequestController {
     }
 
     @GetMapping
-    public @ResponseStatus(HttpStatus.OK) List<ParticipationRequestDto> getUserRequests(
+    @ResponseStatus(HttpStatus.OK)
+    public List<ParticipationRequestDto> getUserRequests(
             @PathVariable Long userId) {
         log.info("Get all requests from userid = {}", userId);
         return requestService.getUserRequests(userId);
     }
 
     @PatchMapping("/{requestId}/cancel")
-    public @ResponseStatus(HttpStatus.OK) ParticipationRequestDto cancelRequest(
+    @ResponseStatus(HttpStatus.OK)
+    public ParticipationRequestDto cancelRequest(
             @PathVariable Long userId,
             @PathVariable Long requestId) {
         log.info("Cancel request userid = {}, requestId = {}", userId, requestId);
         return requestService.cancelRequest(userId, requestId);
-
     }
 }

@@ -22,8 +22,9 @@ public class PublicEventController {
     }
 
     @GetMapping("/{id}")
-    public @ResponseStatus(HttpStatus.OK) EventFullDto getPublishedEvent(@PathVariable Long id,
-                                                                         HttpServletRequest request) {
+    @ResponseStatus(HttpStatus.OK)
+    public EventFullDto getPublishedEvent(@PathVariable Long id,
+                                          HttpServletRequest request) {
         log.info("try to find event id = {}", id);
         log.info("client ip: {}", request.getRemoteAddr());
         log.info("endpoint path: {}", request.getRequestURI());
@@ -31,7 +32,8 @@ public class PublicEventController {
     }
 
     @GetMapping
-    public @ResponseStatus(HttpStatus.OK) List<EventShortDto> searchEvents(
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventShortDto> searchEvents(
             @RequestParam(name = "text", required = false) String text,
             @RequestParam(name = "categories", required = false) List<Long> categories,
             @RequestParam(name = "paid", required = false) Boolean paid,
@@ -49,7 +51,5 @@ public class PublicEventController {
         log.info("endpoint path: {}", request.getRequestURI());
         return publicEventService.searchEvents(text, categories, paid, rangeStart,
                 rangeEnd, onlyAvailable, sort, from, size, request);
-
     }
-
 }

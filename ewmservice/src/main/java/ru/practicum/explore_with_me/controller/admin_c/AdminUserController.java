@@ -26,7 +26,8 @@ public class AdminUserController {
     }
 
     @GetMapping
-    public @ResponseStatus(HttpStatus.OK) List<UserDto> getAllUsers(
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserDto> getAllUsers(
             @RequestParam(name = "ids", defaultValue = "") Long[] ids,
             @RequestParam(name = "from", defaultValue = "0") int from,
             @RequestParam(name = "size", defaultValue = "10") int size) {
@@ -35,13 +36,15 @@ public class AdminUserController {
     }
 
     @PostMapping
-    public @ResponseStatus(HttpStatus.CREATED) UserDto postUser(@Valid @RequestBody NewUserRequest newUserRequest) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDto postUser(@Valid @RequestBody NewUserRequest newUserRequest) {
         log.info("post newUserRequest:" + newUserRequest);
         return userService.postUser(newUserRequest);
     }
 
     @DeleteMapping("/{id}")
-    public @ResponseStatus(HttpStatus.NO_CONTENT) void delete(@PathVariable("id") long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") long id) {
         log.info("delete user id = " + id);
         userService.deleteUser(id);
     }

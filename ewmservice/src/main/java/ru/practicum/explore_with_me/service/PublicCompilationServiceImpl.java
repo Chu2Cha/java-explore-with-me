@@ -41,7 +41,7 @@ public class PublicCompilationServiceImpl implements PublicCompilationService {
     }
 
     private Compilation findCompilation(Long compId) {
-        return compilationRepository.findById(compId).
-                orElseThrow(() -> new NotFoundException("Подборка id =" + compId + " не найдена."));
+        return compilationRepository.findById(compId)
+                .orElseThrow(() -> new NotFoundException("Подборка id =" + compId + " не найдена."));
     }
 }

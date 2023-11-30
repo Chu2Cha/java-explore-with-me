@@ -1,9 +1,9 @@
-package ru.practicum.explore_with_me.statistics_mapper;
+package statservice.statistics_mapper;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.practicum.explore_with_me.statistics_dto.dto.EndpointHitDto;
-import ru.practicum.explore_with_me.statistics_model.EndpointHit;
+import statdto.dto.EndpointHitDto;
+import statservice.statistics_model.EndpointHit;
 
 @Component
 @AllArgsConstructor

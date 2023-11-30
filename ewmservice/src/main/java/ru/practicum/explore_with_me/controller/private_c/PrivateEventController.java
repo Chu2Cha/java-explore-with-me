@@ -30,7 +30,8 @@ public class PrivateEventController {
     }
 
     @PostMapping
-    public @ResponseStatus(HttpStatus.CREATED) EventFullDto postNewEvent(
+    @ResponseStatus(HttpStatus.CREATED)
+    public EventFullDto postNewEvent(
             @PathVariable Long userId,
             @Valid @RequestBody NewEventDto newEventDto) {
         LocalDateTime cratedOn = LocalDateTime.now();
@@ -39,7 +40,8 @@ public class PrivateEventController {
     }
 
     @GetMapping("/{id}")
-    public @ResponseStatus(HttpStatus.OK) EventFullDto getUserEvent(
+    @ResponseStatus(HttpStatus.OK)
+    public EventFullDto getUserEvent(
             @PathVariable Long userId,
             @PathVariable Long id) {
         log.info("get one event, userid = {}, event id = {}", userId, id);
@@ -47,7 +49,8 @@ public class PrivateEventController {
     }
 
     @GetMapping
-    public @ResponseStatus(HttpStatus.OK) List<EventShortDto> getAllUserEvents(
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventShortDto> getAllUserEvents(
             @PathVariable Long userId,
             @RequestParam(name = "from", defaultValue = "0") int from,
             @RequestParam(name = "size", defaultValue = "10") int size) {
@@ -56,7 +59,8 @@ public class PrivateEventController {
     }
 
     @PatchMapping("/{id}")
-    public @ResponseStatus(HttpStatus.OK) EventFullDto updateEvent(
+    @ResponseStatus(HttpStatus.OK)
+    public EventFullDto updateEvent(
             @PathVariable Long userId,
             @PathVariable Long id,
             @Valid @RequestBody UpdateEventUserRequest updateEventUserRequest) {
@@ -67,7 +71,8 @@ public class PrivateEventController {
     }
 
     @GetMapping("/{id}/requests")
-    public @ResponseStatus(HttpStatus.OK) List<ParticipationRequestDto> getEventRequests(
+    @ResponseStatus(HttpStatus.OK)
+    public List<ParticipationRequestDto> getEventRequests(
             @PathVariable Long userId,
             @PathVariable Long id) {
         log.info("get all requests for userid = {}, eventId = {}", userId, id);
@@ -75,12 +80,13 @@ public class PrivateEventController {
     }
 
     @PatchMapping("/{id}/requests")
-    public @ResponseStatus(HttpStatus.OK) EventRequestStatusUpdateResult setEventRequestsStatus(
+    @ResponseStatus(HttpStatus.OK)
+    public EventRequestStatusUpdateResult setEventRequestsStatus(
             @PathVariable Long userId,
             @PathVariable Long id,
             @RequestBody EventRequestStatusUpdateRequest requestStatusUpdateRequest) {
-        log.info("set status for requests for userid = {}, eventId = {}, new status = {}"
-                , userId, id, requestStatusUpdateRequest);
+        log.info("set status for requests for userid = {}, eventId = {}, new status = {}",
+                userId, id, requestStatusUpdateRequest);
         return privateEventService.setEventRequestsStatus(userId, id, requestStatusUpdateRequest);
 
     }

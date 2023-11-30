@@ -46,10 +46,7 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
             throw new ConflictException("у события достигнут лимит запросов на участие");
         }
 
-        if (!event.getRequestModeration())
-//                event.getParticipantLimit() == 0
-//                || event.getConfirmedRequests() < event.getParticipantLimit())
-        {
+        if (!event.getRequestModeration()) {
             event.setConfirmedRequests(event.getConfirmedRequests() + 1);
         }
 

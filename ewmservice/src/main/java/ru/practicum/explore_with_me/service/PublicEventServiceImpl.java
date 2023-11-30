@@ -3,7 +3,6 @@ package ru.practicum.explore_with_me.service;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ru.practicum.explore_with_me.StatisticsClient;
 import ru.practicum.explore_with_me.dto.enums.EventState;
 import ru.practicum.explore_with_me.dto.enums.SortEvents;
 import ru.practicum.explore_with_me.dto.event.EventFullDto;
@@ -14,7 +13,9 @@ import ru.practicum.explore_with_me.mapper.EventMapper;
 import ru.practicum.explore_with_me.model.Event;
 import ru.practicum.explore_with_me.repository.EventRepository;
 import ru.practicum.explore_with_me.service.interfaces.PublicEventService;
-import ru.practicum.explore_with_me.statistics_dto.dto.EndpointHitDto;
+import statclient.StatisticsClient;
+import statdto.dto.EndpointHitDto;
+
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;

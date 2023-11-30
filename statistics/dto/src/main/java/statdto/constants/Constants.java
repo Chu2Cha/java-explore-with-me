@@ -1,4 +1,4 @@
-package ru.practicum.explore_with_me.statistics_dto.constants;
+package statdto.constants;
 
 import java.time.format.DateTimeFormatter;
 
