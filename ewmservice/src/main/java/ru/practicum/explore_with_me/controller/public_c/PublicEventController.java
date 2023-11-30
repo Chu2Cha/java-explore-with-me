@@ -2,19 +2,18 @@ package ru.practicum.explore_with_me.controller.public_c;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.dto.enums.SortEvents;
 import ru.practicum.explore_with_me.dto.event.EventFullDto;
 import ru.practicum.explore_with_me.dto.event.EventShortDto;
 import ru.practicum.explore_with_me.service.interfaces.PublicEventService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/events")
 @Slf4j
-@Validated
 public class PublicEventController {
     private final PublicEventService publicEventService;
 
@@ -23,9 +22,12 @@ public class PublicEventController {
     }
 
     @GetMapping("/{id}")
-    public @ResponseStatus(HttpStatus.OK) EventFullDto getPublishedEvent(@PathVariable Long id) {
+    public @ResponseStatus(HttpStatus.OK) EventFullDto getPublishedEvent(@PathVariable Long id,
+                                                                         HttpServletRequest request) {
         log.info("try to find event id = {}", id);
-        return publicEventService.getPublishedEvent(id);
+        log.info("client ip: {}", request.getRemoteAddr());
+        log.info("endpoint path: {}", request.getRequestURI());
+        return publicEventService.getPublishedEvent(id, request);
     }
 
     @GetMapping
@@ -38,12 +40,15 @@ public class PublicEventController {
             @RequestParam(name = "onlyAvailable", defaultValue = "false") Boolean onlyAvailable,
             @RequestParam(name = "sort", required = false) SortEvents sort,
             @RequestParam(name = "from", defaultValue = "0") int from,
-            @RequestParam(name = "size", defaultValue = "10") int size) {
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            HttpServletRequest request) {
         log.info("find events where text = {}, categories = {}, paid = {}, rangeStart = {}, rangeEnd = {}, " +
                         "onlyAvailable = {}, sort = {}, from = {}, size = {}", text, categories, paid, rangeStart,
                 rangeEnd, onlyAvailable, sort, from, size);
+        log.info("client ip: {}", request.getRemoteAddr());
+        log.info("endpoint path: {}", request.getRequestURI());
         return publicEventService.searchEvents(text, categories, paid, rangeStart,
-                rangeEnd, onlyAvailable, sort, from, size);
+                rangeEnd, onlyAvailable, sort, from, size, request);
 
     }
 

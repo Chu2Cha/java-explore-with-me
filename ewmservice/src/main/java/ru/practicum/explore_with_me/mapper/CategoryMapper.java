@@ -21,7 +21,7 @@ public class CategoryMapper {
         );
     }
 
-    public Category toCategoryFromNew(NewCategoryDto newCategoryDto){
+    public Category toCategoryFromNew(NewCategoryDto newCategoryDto) {
         Category category = new Category();
         category.setName(newCategoryDto.getName());
         return category;

@@ -105,7 +105,7 @@ public class PrivateEventServiceImpl implements PrivateEventService {
                                                                  EventRequestStatusUpdateRequest requestStatusUpdateRequest) {
         Event event = eventValidation.findInitiatorsEvent(userId, id);
         EventRequestStatusUpdateResult statusUpdateResult = new EventRequestStatusUpdateResult();
-        if (event.getParticipantLimit() != 0 && event.getConfirmedRequests()>=event.getParticipantLimit()) {
+        if (event.getParticipantLimit() != 0 && event.getConfirmedRequests() >= event.getParticipantLimit()) {
             throw new ConflictException("нельзя подтвердить заявку, " +
                     "если уже достигнут лимит по заявкам на данное событие ");
         }
@@ -127,7 +127,7 @@ public class PrivateEventServiceImpl implements PrivateEventService {
                 requestRepository.updateStatus(request.getId(), status);
                 request.setStatus(status);
                 if (status.equals(RequestStatus.CONFIRMED)) {
-                    event.setConfirmedRequests(event.getConfirmedRequests()+1);
+                    event.setConfirmedRequests(event.getConfirmedRequests() + 1);
                     confirmedRequests.add(requestMapper.toRequestDto(request));
                 }
                 if (status.equals(RequestStatus.REJECTED)) {

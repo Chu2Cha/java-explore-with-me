@@ -2,7 +2,6 @@ package ru.practicum.explore_with_me.controller.public_c;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.dto.category.CategoryDto;
 import ru.practicum.explore_with_me.service.interfaces.PublicCategoryService;
@@ -14,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/categories")
 @Slf4j
-@Validated
 public class PublicCategoryController {
     private final PublicCategoryService publicCategoryService;
 
@@ -31,11 +29,10 @@ public class PublicCategoryController {
     }
 
     @GetMapping("/{id}")
-    public @ResponseStatus(HttpStatus.OK) CategoryDto getCategory(@PathVariable("id") long id){
+    public @ResponseStatus(HttpStatus.OK) CategoryDto getCategory(@PathVariable("id") long id) {
         log.info(("Get category id = " + id));
         return publicCategoryService.getCategory(id);
     }
-
 
 
 }

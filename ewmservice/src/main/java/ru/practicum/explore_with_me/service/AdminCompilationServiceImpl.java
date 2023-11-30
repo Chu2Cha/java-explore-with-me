@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @AllArgsConstructor
 public class AdminCompilationServiceImpl implements AdminCompilationService {
-    private  final CompilationRepository compilationRepository;
+    private final CompilationRepository compilationRepository;
     private final CompilationMapper compilationMapper;
     private final EventValidation eventValidation;
 
@@ -36,29 +36,29 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     public void deleteCompilation(Long compId) {
         Compilation compilation = findCompilation(compId);
         compilationRepository.delete(compilation);
-        log.info("подборка id = {} удалена.", compId );
+        log.info("подборка id = {} удалена.", compId);
     }
 
     @Override
     public CompilationDto patchCompilation(Long compId, UpdateCompilationRequest updateCompilationRequest) {
         Compilation compilation = findCompilation(compId);
-        if(updateCompilationRequest.getEvents()!=null){
+        if (updateCompilationRequest.getEvents() != null) {
             List<Event> eventList = updateCompilationRequest.getEvents().stream()
                     .map(eventValidation::findEvent)
                     .collect(Collectors.toList());
             compilation.setEvents(eventList);
         }
-        if(updateCompilationRequest.getPinned()!=null){
+        if (updateCompilationRequest.getPinned() != null) {
             compilation.setPinned(updateCompilationRequest.getPinned());
         }
-        if(updateCompilationRequest.getTitle()!=null){
+        if (updateCompilationRequest.getTitle() != null) {
             compilation.setTitle(updateCompilationRequest.getTitle());
         }
         compilation = compilationRepository.save(compilation);
         return compilationMapper.toCompilationDto(compilation);
     }
 
-    private Compilation findCompilation(Long compId){
+    private Compilation findCompilation(Long compId) {
         return compilationRepository.findById(compId).
                 orElseThrow(() -> new NotFoundException("Подборка id =" + compId + " не найдена."));
     }

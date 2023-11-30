@@ -2,7 +2,6 @@ package ru.practicum.explore_with_me.controller.public_c;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.dto.compilation.CompilationDto;
 import ru.practicum.explore_with_me.service.interfaces.PublicCompilationService;
@@ -12,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/compilations")
 @Slf4j
-@Validated
 public class PublicCompilationController {
     private final PublicCompilationService publicCompilationService;
 

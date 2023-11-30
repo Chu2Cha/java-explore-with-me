@@ -40,7 +40,7 @@ public class AdminEventController {
             @RequestParam(name = "states", required = false) List<EventState> states,
             @RequestParam(name = "categories", required = false) List<Long> categories,
             @RequestParam(name = "rangeStart", required = false) String rangeStart,
-            @RequestParam(name = "rangeEnd", required = false) String rangeEnd ,
+            @RequestParam(name = "rangeEnd", required = false) String rangeEnd,
             @RequestParam(name = "from", defaultValue = "0") int from,
             @RequestParam(name = "size", defaultValue = "10") int size) {
         log.info("search events: users = {}, states = {}, categories = {}, rangeStart = {}, rangeEnd = {}," +

@@ -3,7 +3,6 @@ package ru.practicum.explore_with_me.controller.private_c;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.dto.request.ParticipationRequestDto;
 import ru.practicum.explore_with_me.service.interfaces.PrivateRequestService;
@@ -14,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/users/{userId}/requests")
 @Slf4j
-@Validated
 @AllArgsConstructor
 public class PrivateRequestController {
 
@@ -32,7 +30,7 @@ public class PrivateRequestController {
 
     @GetMapping
     public @ResponseStatus(HttpStatus.OK) List<ParticipationRequestDto> getUserRequests(
-            @PathVariable Long userId){
+            @PathVariable Long userId) {
         log.info("Get all requests from userid = {}", userId);
         return requestService.getUserRequests(userId);
     }
@@ -40,7 +38,7 @@ public class PrivateRequestController {
     @PatchMapping("/{requestId}/cancel")
     public @ResponseStatus(HttpStatus.OK) ParticipationRequestDto cancelRequest(
             @PathVariable Long userId,
-            @PathVariable Long requestId    ){
+            @PathVariable Long requestId) {
         log.info("Cancel request userid = {}, requestId = {}", userId, requestId);
         return requestService.cancelRequest(userId, requestId);
 

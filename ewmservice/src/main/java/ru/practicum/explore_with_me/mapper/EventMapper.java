@@ -13,7 +13,7 @@ public class EventMapper {
     private final CategoryMapper categoryMapper;
     private final UserMapper userMapper;
 
-    public Event toEventFromNew(NewEventDto newEventDto){
+    public Event toEventFromNew(NewEventDto newEventDto) {
         return Event.builder()
                 .annotation(newEventDto.getAnnotation())
                 .eventDate(newEventDto.getEventDate())
@@ -26,7 +26,7 @@ public class EventMapper {
                 .build();
     }
 
-    public EventFullDto toEventFullDto (Event event){
+    public EventFullDto toEventFullDto(Event event) {
         return EventFullDto.builder()
                 .annotation(event.getAnnotation())
                 .category(categoryMapper.toCategoryDto(event.getCategory()))
@@ -47,7 +47,7 @@ public class EventMapper {
                 .build();
     }
 
-    public EventShortDto toEventShortDto(Event event){
+    public EventShortDto toEventShortDto(Event event) {
         return EventShortDto.builder()
                 .annotation(event.getAnnotation())
                 .category(categoryMapper.toCategoryDto(event.getCategory()))

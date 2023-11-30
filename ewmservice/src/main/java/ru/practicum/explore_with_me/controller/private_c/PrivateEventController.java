@@ -78,7 +78,7 @@ public class PrivateEventController {
     public @ResponseStatus(HttpStatus.OK) EventRequestStatusUpdateResult setEventRequestsStatus(
             @PathVariable Long userId,
             @PathVariable Long id,
-            @RequestBody EventRequestStatusUpdateRequest requestStatusUpdateRequest){
+            @RequestBody EventRequestStatusUpdateRequest requestStatusUpdateRequest) {
         log.info("set status for requests for userid = {}, eventId = {}, new status = {}"
                 , userId, id, requestStatusUpdateRequest);
         return privateEventService.setEventRequestsStatus(userId, id, requestStatusUpdateRequest);

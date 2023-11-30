@@ -59,16 +59,15 @@ public class AdminEventServiceImpl implements AdminEventService {
                                            String rangeStart, String rangeEnd, int from, int size) {
         LocalDateTime startDate = eventValidation.stringStartToDate(rangeStart);
         LocalDateTime endDate = eventValidation.stringEndToDate(rangeEnd);
-        if(startDate.isAfter(endDate)){
+        if (startDate.isAfter(endDate)) {
             throw new BadRequestException("дата начала выборки должна быть позже даты конца выборки");
         }
         PageRequest page = PageRequest.of(from / size, size);
-        List<Event> eventList =  eventRepository.adminSearchEvents(users, states, categories, startDate, endDate, page);
+        List<Event> eventList = eventRepository.adminSearchEvents(users, states, categories, startDate, endDate, page);
         return eventList.stream()
                 .map(eventMapper::toEventFullDto)
                 .collect(Collectors.toList());
     }
-
 
 
 }

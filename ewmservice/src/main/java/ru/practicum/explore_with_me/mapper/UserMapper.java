@@ -26,14 +26,14 @@ public class UserMapper {
         );
     }
 
-    public User toUserFromNew(NewUserRequest newUserRequest){
+    public User toUserFromNew(NewUserRequest newUserRequest) {
         User user = new User();
         user.setEmail(newUserRequest.getEmail());
         user.setName(newUserRequest.getName());
         return user;
     }
 
-    public UserShortDto toUserShortDto(User user){
+    public UserShortDto toUserShortDto(User user) {
         return new UserShortDto(user.getId(), user.getName());
     }
 

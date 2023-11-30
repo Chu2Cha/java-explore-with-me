@@ -35,7 +35,7 @@ public class EventValidation {
     }
 
     protected void checkDateValidation(Event event, LocalDateTime cratedOn, int hours) {
-        if(event.getEventDate().isBefore(cratedOn.plusHours(hours))){
+        if (event.getEventDate().isBefore(cratedOn.plusHours(hours))) {
             throw new BadRequestException("Дата и время, на которые намечено событие, " + event.getEventDate() +
                     " не может быть раньше, чем через " + hours + " час(а) от текущего момента " + cratedOn);
         }
@@ -88,15 +88,16 @@ public class EventValidation {
 
     protected LocalDateTime stringStartToDate(String stringDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime daate = LocalDateTime.of(1970, 1,1,0,1);
+        LocalDateTime daate = LocalDateTime.of(1970, 1, 1, 0, 1);
         if (stringDate != null) {
             daate = LocalDateTime.parse(stringDate, formatter);
         }
         return daate;
     }
+
     protected LocalDateTime stringEndToDate(String stringDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime daate = LocalDateTime.of(2100, 12, 31,23,59);
+        LocalDateTime daate = LocalDateTime.of(2100, 12, 31, 23, 59);
         if (stringDate != null) {
             daate = LocalDateTime.parse(stringDate, formatter);
         }

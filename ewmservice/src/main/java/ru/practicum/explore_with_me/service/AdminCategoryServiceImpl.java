@@ -37,7 +37,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     @Override
     public void deleteCategory(long id) {
         CategoryDto categoryForDelete = findCategoryById(id);
-        if(!eventRepository.findOneByCategoryId(id).isEmpty()){
+        if (!eventRepository.findOneByCategoryId(id).isEmpty()) {
             throw new ConflictException("Ошибка: У категории " + categoryForDelete.getName() + " есть связанные события!");
         }
         log.info("Delete category: " + categoryForDelete.getName());

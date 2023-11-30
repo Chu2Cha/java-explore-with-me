@@ -28,7 +28,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public List<UserDto> getAllUsers(Long[] ids, int from, int size) {
-        if(ids == null || ids.length ==0 ){
+        if (ids == null || ids.length == 0) {
             return userRepository.findAll()
                     .stream()
                     .skip(from)
@@ -64,14 +64,14 @@ public class AdminUserServiceImpl implements AdminUserService {
                 .orElseThrow(() -> new NotFoundException("Пользователь с id " + id + " не найден.")));
     }
 
-    private void checkUserForBusyName(String name){
-        if(!userRepository.findOneByName(name).isEmpty()){
+    private void checkUserForBusyName(String name) {
+        if (!userRepository.findOneByName(name).isEmpty()) {
             throw new ConflictException("Ошибка: имя пользователя " + name + " уже занято.");
         }
     }
 
-    private void checkUserForBusyEmail(String email){
-        if(!userRepository.findOneByEmail(email).isEmpty()){
+    private void checkUserForBusyEmail(String email) {
+        if (!userRepository.findOneByEmail(email).isEmpty()) {
             throw new ConflictException("Ошибка: электронная почта " + email + " уже занята.");
         }
     }

@@ -2,21 +2,13 @@ package ru.practicum.explore_with_me.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import java.util.Objects;
 
 @RestControllerAdvice
 @Slf4j
 public class ErrorHandler {
-    //    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.CONFLICT)
-//    public ErrorResponse handleValidationException(final ConflictException e) {
-//        log.error(HttpStatus.CONFLICT.toString(), e);
-//        return new ErrorResponse(e.getMessage());
-//    }
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ApiError handleForbiddenException(final ConflictException e) {
@@ -44,6 +36,6 @@ public class ErrorHandler {
         return new ApiError(
                 HttpStatus.BAD_REQUEST.toString(),
                 "BAD REQUEST",
-                e.getMessage());    }
-
+                e.getMessage());
+    }
 }
