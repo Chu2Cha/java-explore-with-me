@@ -8,6 +8,7 @@ import statservice.statistics_mapper.EndpointHitMapper;
 import statservice.statistics_model.EndpointHit;
 import statdto.dto.ViewStats;
 import statservice.statistics_repository.StatisticsRepository;
+import statservice.statistics_service.exceptions.BadRequestException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ public class StatisticsServiceImpl implements StatisticsService {
     public List<ViewStats> getStats(String start, String end, List<String> uris, boolean unique) {
         LocalDateTime startTime = stringToDate(start);
         LocalDateTime endTime = stringToDate(end);
+        if (endTime.isBefore(startTime)) {
+            throw new BadRequestException("Дата конца позже даты начала");
+        }
 
         List<ViewStats> viewStatsList = new ArrayList<>();
 
