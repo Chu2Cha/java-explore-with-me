@@ -1,5 +1,6 @@
 package ru.practicum.explore_with_me.service;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.explore_with_me.dto.user.NewUserRequest;
@@ -16,15 +17,11 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class AdminUserServiceImpl implements AdminUserService {
 
     private final UserRepository userRepository;
-    private final UserMapper userMapper = new UserMapper();
-
-
-    public AdminUserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserMapper userMapper;
 
     @Override
     public List<UserDto> getAllUsers(Long[] ids, int from, int size) {
@@ -54,14 +51,9 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public void deleteUser(long id) {
-        findUserById(id);
+        userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Пользователь с id " + id + " не найден."));
         userRepository.deleteById(id);
-
-    }
-
-    private UserDto findUserById(long id) {
-        return userMapper.toUserDto(userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Пользователь с id " + id + " не найден.")));
     }
 
     private void checkUserForBusyName(String name) {

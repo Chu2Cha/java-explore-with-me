@@ -36,5 +36,4 @@ public class PublicCategoryController {
         return publicCategoryService.getCategory(id);
     }
 
-
 }

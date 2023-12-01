@@ -1,5 +1,6 @@
 package ru.practicum.explore_with_me.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,14 +14,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class PublicCategoryServiceImpl implements PublicCategoryService {
-
     private final CategoryRepository categoryRepository;
-    private final CategoryMapper categoryMapper = new CategoryMapper();
-
-    public PublicCategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
+    private final CategoryMapper categoryMapper;
 
     @Override
     public List<CategoryDto> getAllCategories(int from, int size) {

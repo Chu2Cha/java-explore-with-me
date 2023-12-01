@@ -18,14 +18,6 @@ public class UserMapper {
         );
     }
 
-    public User toUser(UserDto userDto) {
-        return new User(
-                userDto.getEmail(),
-                userDto.getId(),
-                userDto.getName()
-        );
-    }
-
     public User toUserFromNew(NewUserRequest newUserRequest) {
         User user = new User();
         user.setEmail(newUserRequest.getEmail());

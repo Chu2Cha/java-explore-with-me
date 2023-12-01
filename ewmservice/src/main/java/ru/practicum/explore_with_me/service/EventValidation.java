@@ -17,6 +17,8 @@ import ru.practicum.explore_with_me.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+//для сохранения принципа единой ответсвености (для каждого контроллера свой сервис) и исключения дублирования кода
+
 @Component
 @AllArgsConstructor
 public class EventValidation {
@@ -68,7 +70,6 @@ public class EventValidation {
         if (updateEventRequest.getEventDate() != null) {
             event.setEventDate(updateEventRequest.getEventDate());
         }
-
         if (updateEventRequest.getLocation() != null) {
             event.setLocation(updateEventRequest.getLocation());
         }

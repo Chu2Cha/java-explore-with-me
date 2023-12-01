@@ -23,8 +23,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
 
     private final CategoryRepository categoryRepository;
     private final EventRepository eventRepository;
-
-    private final CategoryMapper categoryMapper = new CategoryMapper();
+    private final CategoryMapper categoryMapper;
 
 
     @Override
@@ -38,7 +37,8 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     public void deleteCategory(long id) {
         CategoryDto categoryForDelete = findCategoryById(id);
         if (!eventRepository.findOneByCategoryId(id).isEmpty()) {
-            throw new ConflictException("Ошибка: У категории " + categoryForDelete.getName() + " есть связанные события!");
+            throw new ConflictException("Ошибка: У категории " + categoryForDelete.getName() +
+                    " есть связанные события!");
         }
         log.info("Delete category: " + categoryForDelete.getName());
         categoryRepository.deleteById(id);

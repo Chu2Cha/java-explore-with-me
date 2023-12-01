@@ -19,7 +19,6 @@ import java.util.List;
 public class AdminUserController {
     private final AdminUserService userService;
 
-
     @Autowired
     public AdminUserController(AdminUserService userService) {
         this.userService = userService;
@@ -48,6 +47,5 @@ public class AdminUserController {
         log.info("delete user id = " + id);
         userService.deleteUser(id);
     }
-
 
 }

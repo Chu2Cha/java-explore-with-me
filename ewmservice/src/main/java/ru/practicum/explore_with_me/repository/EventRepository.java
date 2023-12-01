@@ -19,6 +19,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     List<Event> findOneByCategoryId(Long id);
 
+    //4 очень похожих метода. Я не придумал, как корректно подружить JpaRepository с Query builder.
+
     @Query("SELECT e FROM Event AS e " +
             "JOIN e.category AS c " +
             "JOIN e.initiator AS u " +
