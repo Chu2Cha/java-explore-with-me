@@ -1,6 +1,5 @@
 package ru.practicum.explore_with_me.dto.comment;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class NewCommentDto {
+public class RequestCommentDto {
 
      @NotBlank
     @Size(min = 10, max = 280)

@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "events")
+@Table(name = "comments")
 @Data
 @Builder
 @AllArgsConstructor
@@ -25,7 +25,7 @@ public class Comment {
     private User author;
 
     @ManyToOne
-    @JoinColumn(name = "event")
+    @JoinColumn(name = "event_id")
     private Event event;
 
     @Column(name = "comment_date")
