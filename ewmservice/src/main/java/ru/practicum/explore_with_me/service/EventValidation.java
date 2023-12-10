@@ -7,10 +7,12 @@ import ru.practicum.explore_with_me.dto.event.UpdateEventRequest;
 import ru.practicum.explore_with_me.exceptions.BadRequestException;
 import ru.practicum.explore_with_me.exceptions.ConflictException;
 import ru.practicum.explore_with_me.exceptions.NotFoundException;
+import ru.practicum.explore_with_me.mapper.CommentMapper;
 import ru.practicum.explore_with_me.model.Category;
 import ru.practicum.explore_with_me.model.Event;
 import ru.practicum.explore_with_me.model.User;
 import ru.practicum.explore_with_me.repository.CategoryRepository;
+import ru.practicum.explore_with_me.repository.CommentRepository;
 import ru.practicum.explore_with_me.repository.EventRepository;
 import ru.practicum.explore_with_me.repository.UserRepository;
 
@@ -25,6 +27,8 @@ public class EventValidation {
     protected final EventRepository eventRepository;
     protected final UserRepository userRepository;
     protected final CategoryRepository categoryRepository;
+    protected final CommentRepository commentRepository;
+    protected final CommentMapper commentMapper;
 
     protected User getInitiator(Long userId) {
         return userRepository.findById(userId)
@@ -104,4 +108,6 @@ public class EventValidation {
         }
         return daate;
     }
+
+
 }
