@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @Builder
 public class RequestCommentDto {
 
-     @NotBlank
+    @NotBlank
     @Size(min = 10, max = 280)
     private String text;
 

@@ -17,6 +17,7 @@ public class PublicCommentServiceImpl implements PublicCommentService {
     private final CommentRepository commentRepository;
     private final CommentMapper commentMapper;
     private final EventValidation eventValidation;
+
     @Override
     public List<CommentDto> getAllEventComments(Long eventId, int from, int size) {
         eventValidation.findEvent(eventId);

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public interface PrivateCommentService {
     CommentDto postNewComment(Long userId, Long eventId, RequestCommentDto requestCommentDto, LocalDateTime commentDate);
 
-    CommentDto updateCommentByAuthor(Long userId, Long eventId, Long commentId, 
+    CommentDto updateCommentByAuthor(Long userId, Long eventId, Long commentId,
                                      RequestCommentDto requestCommentDto, LocalDateTime updateCommentTime);
 
     void deleteComment(Long userId, Long eventId, Long commentId);

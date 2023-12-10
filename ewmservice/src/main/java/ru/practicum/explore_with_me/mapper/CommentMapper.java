@@ -8,7 +8,7 @@ import ru.practicum.explore_with_me.model.Comment;
 @Component
 @AllArgsConstructor
 public class CommentMapper {
-    public CommentDto toCommentDto (Comment comment){
+    public CommentDto toCommentDto(Comment comment) {
         return CommentDto.builder()
                 .id(comment.getId())
                 .authorId(comment.getAuthor().getId())
